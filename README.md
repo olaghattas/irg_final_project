@@ -33,7 +33,13 @@ https://github.com/hkchengrex/Tracking-Anything-with-DEVA
 
 TODO: add the txt instruction file.
 
-I sent the first video above and got 
+I sent the first video above and got: the command and script i used 
+
+./example/vipseg/images/video_hdf5 is the folder where i put images from the video. The video has to be trnsformed to images before ebing passed to the model.
+
+python demo/demo_with_text.py --chunk_size 4 --img_path ./example/vipseg/images/video_hdf5 --amp --temporal_setting semionline --size 480 --output ./example/output/video_hdf5 --prompt robot.bowl.pepper.table
+
+whe i used the prompt robot.bowl.bellpepper.table the pepper was not segmented
 
 timestep 1
 <img width="320" height="240" alt="000001" src="https://github.com/user-attachments/assets/e59227ed-d9f8-4314-be6c-d7295ddc2fcc" />
