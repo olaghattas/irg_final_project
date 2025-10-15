@@ -1,3 +1,9 @@
 LitSearch_corpus_clean
 LitSearch_query
 LitSearch_corpus_s2orc
+
+# Virtual environments
+.venv
+
+# do not add API keys
+.env
