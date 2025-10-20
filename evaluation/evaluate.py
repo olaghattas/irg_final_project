@@ -17,7 +17,7 @@ from metrics import read_qrels, read_run, per_query_metric
 qrel_file = "../litsearch.qrel"
 default_metric = "ndcg@50" ## Available metrics: ndcg@K | p@K | p@R | ap | map
 output_path = "results/baseline"
-run_files = ["../bm25.run"]
+run_files = ["../bm25.run", "../tfidf_basic_all.run"]
 
 def stderr(x):
     n = len(x)
