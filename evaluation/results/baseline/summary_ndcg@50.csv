@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+bm25,0.435818,0.016361

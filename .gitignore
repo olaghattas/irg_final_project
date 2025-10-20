@@ -2,6 +2,8 @@ LitSearch_corpus_clean
 LitSearch_query
 LitSearch_corpus_s2orc
 
+__pycache__/
+*.pyc
 # Virtual environments
 .venv
 
