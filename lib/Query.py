@@ -2,6 +2,8 @@ from pydantic import BaseModel
 from pydantic_core import from_json
 from collections import Counter
 from pyserini.index.lucene import LuceneIndexReader
+from utils import get_dataset
+import os
 
 class Query(BaseModel):
     contents: str
@@ -17,7 +19,11 @@ class Query(BaseModel):
         return {term: 1 for term in set(analyzed)}
     
     # Define remaining TF-IDF embedding methods Here
-    
+
+  
+def get_query():
+    return get_dataset("query")
+
 
 def main():
     query = Query.model_validate_json("{ \"contents\" : \"Robots are going to 3D imaging\" }")
