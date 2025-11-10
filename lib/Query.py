@@ -11,7 +11,7 @@ class Query(BaseModel):
         analyzed = index_reader.analyze(self.contents)
         return dict(Counter(analyzed))
     
-    # Define remaining TF-IDF embedding methods Here
+    # Define remaining TF-IDF embedding methods here
     
 
 def main():
