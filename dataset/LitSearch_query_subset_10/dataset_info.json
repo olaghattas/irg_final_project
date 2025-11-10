@@ -1,0 +1,57 @@
+{
+  "builder_name": "parquet",
+  "citation": "",
+  "config_name": "query",
+  "dataset_name": "lit_search",
+  "dataset_size": 113188,
+  "description": "",
+  "download_checksums": {
+    "hf://datasets/princeton-nlp/LitSearch@9573fb284a1026c998df47024b888a163f0f0e25/query/full-00000-of-00001.parquet": {
+      "num_bytes": 50621,
+      "checksum": null
+    }
+  },
+  "download_size": 50621,
+  "features": {
+    "query_set": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "query": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "specificity": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "quality": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "corpusids": {
+      "feature": {
+        "dtype": "int64",
+        "_type": "Value"
+      },
+      "_type": "List"
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 163809,
+  "splits": {
+    "full": {
+      "name": "full",
+      "num_bytes": 113188,
+      "num_examples": 597,
+      "dataset_name": "lit_search"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}
