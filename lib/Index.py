@@ -1,5 +1,6 @@
 from pyserini.index.lucene import LuceneIndexReader
 from pyserini.search.lucene import LuceneSearcher
+from abc import ABC, abstractmethod
 import os
 import subprocess
 

@@ -1,7 +1,32 @@
-import Query, Index
+from Query import Query
+from Index import Index
+from pyserini.index.lucene import LuceneIndexReader
+from pyserini.search.lucene import LuceneSearcher
+
 
 class TF_IDF(Index):
 
-    def __init__(self):
-        return
+    def __init__(self, dir):
+        self.dir = dir
+        self.reader = LuceneIndexReader(dir)
 
+    def search(self,query_embedding, doc_embedding_type, k):
+        # This is the naive implementation if it's too slow I can speed it up later
+        if doc_embedding_type == 'nnn':
+            docs = dict()
+            for term in query_embedding.items():
+                posting_list = self.reader.get_postings_list(term[0])
+                for posting in posting_list:
+                    if posting.docid in docs.keys():
+                        docs[posting.docid] += posting.tf
+                    else:
+                        docs[posting.docid] = posting.tf
+            print([item[0] for item in sorted(docs.items(), key=lambda kv: kv[1], reverse=True)[0:k]])
+
+def main():
+    index = TF_IDF('pyserini_index')
+    query = Query.model_validate_json("{ \"contents\" : \"Robots are going to 3D imaging\" }")
+    index.search(query.get_nnn(index.dir), 'nnn', 10)
+
+if __name__ == "__main__":
+    main()
