@@ -1,8 +1,6 @@
 import sys
 sys.path.append('.')
 
-from pydantic import BaseModel
-from pydantic_core import from_json
 from collections import Counter
 from pyserini.index.lucene import LuceneIndexReader
 from src.utils import get_dataset
@@ -10,8 +8,11 @@ import os
 import numpy as np
 import nltk
 
-class Query(BaseModel):
+class Query:
     contents: str
+
+    def __init__(self,contents):
+        self.contents = contents
 
     def get_nnn(self, index_dir):
         index_reader = LuceneIndexReader(index_dir)
@@ -35,11 +36,11 @@ def get_query():
 
 
 def main():
-    query = Query.model_validate_json("{ \"contents\" : \"Robots are going to 3D imaging\" }")
+    query = Query("Robots are going to 3D imaging")
     print(query.get_nnn("indexes/pyserini_index"))
     print(query.get_bnn("indexes/pyserini_index"))
     
-    query2 = Query.model_validate_json("{ \"contents\" : \"Robots images are going robots to 3D imaging\" }")
+    query2 = Query("Robots images are going robots to 3D imaging")
     print(query2.get_nnn("indexes/pyserini_index"))
     print(query2.get_bnn("indexes/pyserini_index"))
     # You can add to this to see that you are getting what you expect

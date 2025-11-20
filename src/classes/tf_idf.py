@@ -3,6 +3,7 @@ sys.path.append('.')
 
 from src.classes.query import Query
 from src.classes.index import Index
+from src.classes.document import Document
 from pyserini.index.lucene import LuceneIndexReader
 from pyserini.search.lucene import LuceneSearcher
 
@@ -31,11 +32,21 @@ class TF_IDF(Index):
             # each of the remaining methods should return a list of (docid, score) pairs sorted by score
         else:
             return []
+        
+    def get_contents(self, d_ids):
+        # I don't know why the searcher can't get the contents back on its own, but this is the best way I know how to do this for now
+        return [Document.model_validate_json(self.searcher.doc(d_id).raw()).contents for d_id in d_ids]
 
 def main():
     index = TF_IDF('indexes/pyserini_index')
-    query = Query.model_validate_json("{ \"contents\" : \"Robots are going to 3D imaging\" }")
-    print(index.search(query.get_nnn(index.dir),'nnn', 10))
+    query = Query("Robots are going to 3D imaging")
+    ranking = index.search(query.get_nnn(index.dir),'nnn', 10)
+    print(ranking)
+    texts = index.get_contents([rank[0] for rank in ranking])
+    for (i,text) in enumerate(texts):
+        print(f"---------------------------------RESULT {i}:--------------------------------------")
+        print(text)
+    return
 
 if __name__ == "__main__":
     main()

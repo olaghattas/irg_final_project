@@ -4,8 +4,8 @@ sys.path.append('.')
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from index import Index
-from query import Query
+from src.classes.index import Index
+from src.classes.query import Query
 
 class ColBert(Index):
 
@@ -32,7 +32,7 @@ class ColBert(Index):
 
 def main():
     index = ColBert("indexes/colbert_index")
-    query = Query.model_validate_json("{ \"contents\" : \"Robots are going to 3D imaging. make better motions\" }")
+    query = Query("Robots are going to 3D imaging. make better motions")
     ranking = index.search(query.get_colbert(index.model),'',10)
     print(ranking)
     texts = index.get_contents([rank[0] for rank in ranking])

@@ -11,7 +11,7 @@ class Index(ABC):
     @abstractmethod
     def search(self, query_embedding, doc_embedding_type, k):
         
-        # Return a vector of embeddings for best documents
+        # Return a list of the top k (document id,rank score) pairs
         pass
     
     
