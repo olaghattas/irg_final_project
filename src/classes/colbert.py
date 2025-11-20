@@ -31,7 +31,7 @@ class ColBert(Index):
     
 
 def main():
-    index = ColBert("indicies/colbert_index")
+    index = ColBert("indexes/colbert_index")
     query = Query.model_validate_json("{ \"contents\" : \"Robots are going to 3D imaging. make better motions\" }")
     ranking = index.search(query.get_colbert(index.model),'',10)
     print(ranking)

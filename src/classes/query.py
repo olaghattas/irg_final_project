@@ -1,3 +1,6 @@
+import sys
+sys.path.append('.')
+
 from pydantic import BaseModel
 from pydantic_core import from_json
 from collections import Counter
@@ -33,12 +36,12 @@ def get_query():
 
 def main():
     query = Query.model_validate_json("{ \"contents\" : \"Robots are going to 3D imaging\" }")
-    print(query.get_nnn("pyserini_index"))
-    print(query.get_bnn("pyserini_index"))
+    print(query.get_nnn("indexes/pyserini_index"))
+    print(query.get_bnn("indexes/pyserini_index"))
     
     query2 = Query.model_validate_json("{ \"contents\" : \"Robots images are going robots to 3D imaging\" }")
-    print(query2.get_nnn("pyserini_index"))
-    print(query2.get_bnn("pyserini_index"))
+    print(query2.get_nnn("indexes/pyserini_index"))
+    print(query2.get_bnn("indexes/pyserini_index"))
     # You can add to this to see that you are getting what you expect
 
 if __name__ == "__main__":
