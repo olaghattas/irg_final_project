@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+colbert,0.224381,0.014530

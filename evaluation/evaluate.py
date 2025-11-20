@@ -14,10 +14,10 @@ from pathlib import Path
 from metrics import read_qrels, read_run, per_query_metric
 
 
-qrel_file = "../litsearch.qrel"
+qrel_file = "evaluation/litsearch.qrel"
 default_metric = "ndcg@50" ## Available metrics: ndcg@K | p@K | p@R | ap | map
-output_path = "results/baseline"
-run_files = ["../bm25.run", "../tfidf_basic_all.run"]
+output_path = "evaluation/results"
+run_files = ["run_files/colbert.run"]
 
 def stderr(x):
     n = len(x)
@@ -57,7 +57,7 @@ def main():
         summary_rows.append([name, f"{mean:.6f}", f"{se:.6f}"])
 
     # write summary
-    with open(out / f"summary_{metric}.csv", "w", newline="", encoding="utf-8") as f:
+    with open(out / f"summary_{name}_{metric}.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(["run", f"mean_{metric}", "stderr"])
         for row in summary_rows:
