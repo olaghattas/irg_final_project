@@ -146,11 +146,11 @@ async def main():
             continue
 
         subset_index = dense.filter_to_specified_ids(candidate_doc_ids)
-        results = dense.score_filtered(query_text, subset_index, top_k=10)
+        results = dense.score_filtered(query_text, subset_index, top_k=100)
         all_dense_results[qid] = results
 
     # Save as a single run file
-    dense_run_file = os.path.join(run_dir, "dense_expanded.run")
+    dense_run_file = os.path.join(run_dir, "dense_expanded_100.run")
     save_dense_run(all_dense_results, dense_run_file)
     
 
