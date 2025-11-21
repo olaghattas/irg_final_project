@@ -3,7 +3,7 @@ import os
 from pyserini.search.lucene import LuceneSearcher
 from datasets import load_from_disk
 
-def run_bm25(index_dir="pyserini_index", query_config="LitSearch_query", k=50):
+def run_bm25(index_dir="pyserini_index", query_config="LitSearch_query", k=50, overwrite=False):
     run_filename=f"bm25_top_{k}.run"
     # Resolve paths relative to project root
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -15,6 +15,10 @@ def run_bm25(index_dir="pyserini_index", query_config="LitSearch_query", k=50):
     query_path = os.path.join(dataset_dir, query_config)
     run_path = os.path.join(run_dir, run_filename)
 
+    ## if run path is already there and not overwrite 
+    if not overwrite and os.path.exists(run_path):
+        return
+    
     # Load BM25 searcher
     searcher = LuceneSearcher(index_path)
     searcher.set_bm25(k1=0.9, b=0.4)

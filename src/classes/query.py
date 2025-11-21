@@ -24,7 +24,6 @@ class Query:
         analyzed = index_reader.analyze(self.contents)
         return {term: 1 for term in set(analyzed)}
     
-
     def get_colbert(self, model):
         return np.array(model.encode(nltk.sent_tokenize(self.contents)))
     
