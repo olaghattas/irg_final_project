@@ -1,5 +1,14 @@
 datasets
 argparse
-csv
-math
+python-csv
+python-math
 pathlib
+pyserini
+langchain
+langchain-core
+langchain-ollama
+openai
+aiolimiter
+nltk
+pydantic
+python-dotenv
