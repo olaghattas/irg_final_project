@@ -15,6 +15,9 @@ class TF_IDF(Index):
         self.dir = dir
         self.reader = LuceneIndexReader(dir)
         self.searcher = LuceneSearcher(dir)
+        # Cache norms and external ids across searches to reduce repeated JVM calls
+        self._doc_norm_cache = {}
+        self._docid_str_cache = {}
 
     def search(self,query_embedding, doc_embedding_type ,k):
         # This is the naive implementation if it's too slow I can speed it up later
@@ -39,7 +42,6 @@ class TF_IDF(Index):
             
         elif doc_embedding_type == 'lnc': # Implemented by Akash
             docs = dict()
-            doc_norm_cache = dict()
             for term, q_weight in query_embedding.items():
                 try:
                     posting_list = self.reader.get_postings_list(term)
@@ -49,11 +51,18 @@ class TF_IDF(Index):
                     continue
                 for posting in posting_list:
                     docid = posting.docid
-                    docid_str = self.searcher.doc(docid).id()
+                    if docid in self._docid_str_cache:
+                        docid_str = self._docid_str_cache[docid]
+                    else:
+                        docid_str = self.searcher.doc(docid).id()
+                        self._docid_str_cache[docid] = docid_str
                     # log-weighted term frequency
                     w_d = 1 + math.log10(posting.tf) if posting.tf > 0 else 0.0
-                    if docid not in doc_norm_cache:
-                        doc_vector = self.reader.get_document_vector(docid_str)
+                    if docid not in self._doc_norm_cache:
+                        try:
+                            doc_vector = self.reader.get_document_vector(docid_str)
+                        except Exception:
+                            doc_vector = None
                         if doc_vector:
                             norm = math.sqrt(
                                 sum(
@@ -62,10 +71,10 @@ class TF_IDF(Index):
                                     if tf > 0
                                 )
                             )
-                            doc_norm_cache[docid] = norm if norm != 0 else 1.0
+                            self._doc_norm_cache[docid] = norm if norm != 0 else 1.0
                         else:
-                            doc_norm_cache[docid] = 1.0
-                    norm = doc_norm_cache[docid]
+                            self._doc_norm_cache[docid] = 1.0
+                    norm = self._doc_norm_cache[docid]
                     score = q_weight * (w_d / norm)
                     docs[docid] = docs.get(docid, 0.0) + score
             out = sorted(docs.items(), key=lambda kv: kv[1], reverse=True)[0:k]
