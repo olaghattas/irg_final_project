@@ -17,7 +17,9 @@ import csv
 qrel_file = "evaluation/litsearch.qrel"
 # default_metric = "ndcg@10" ## Available metrics: ndcg@K | p@K | p@R | ap | map
 output_path = "evaluation/results"
-run_files = ["run_files/dense_expanded_100.run"]
+run_files = ["run_files/dense_unexpanded_100.run"]
+
+# run_files = ["run_files/bm25_expanded.run"]
 
 def stderr(x):
     n = len(x)

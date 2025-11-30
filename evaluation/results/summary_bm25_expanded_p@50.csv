@@ -1,0 +1,2 @@
+run,mean_p@50,stderr
+bm25_expanded,0.013960,0.000416

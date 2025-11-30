@@ -10,6 +10,7 @@ from src.classes.query_expansion_LLM import QueryExpansion
 import json
 
 from src.classes.dense_retrieval import DenseRetrieval
+from src.classes.llm_reranker import LLMReranker
 
 import torch
 
@@ -25,6 +26,7 @@ async def load_or_create_expanded_queries():
     query_path = os.path.join(dataset_dir, query_config)
     expansion_path = os.path.join(dataset_dir, expansion_config)
 
+    
     # ---- CASE 1: expansions already exist → load them
     if os.path.exists(expansion_path):
         expanded_queries = []
@@ -138,22 +140,41 @@ async def main():
     # Dictionary to store all results
     all_dense_results = {}
 
-    # Re-rank using dense retrieval per query
-    for qid, query_text in enumerate(expanded_queries):
-        candidate_doc_ids = bm25_results.get(qid, [])
-        if not candidate_doc_ids:
-            print(f"No BM25 results for query {qid}")
-            continue
-
-        subset_index = dense.filter_to_specified_ids(candidate_doc_ids)
-        results = dense.score_filtered(query_text, subset_index, top_k=100)
-        all_dense_results[qid] = results
-
-    # Save as a single run file
     dense_run_file = os.path.join(run_dir, "dense_expanded_100.run")
-    save_dense_run(all_dense_results, dense_run_file)
-    
+    if not os.path.exists(dense_run_file):
+        # Re-rank using dense retrieval per query
+        for qid, query_text in enumerate(expanded_queries):
+            candidate_doc_ids = bm25_results.get(qid, [])
+            if not candidate_doc_ids:
+                print(f"No BM25 results for query {qid}")
+                continue
 
+            subset_index = dense.filter_to_specified_ids(candidate_doc_ids)
+            results = dense.score_filtered(query_text, subset_index, top_k=100)
+            all_dense_results[qid] = results
+
+        # Save as a single run file
+        
+        save_dense_run(all_dense_results, dense_run_file)
+    
+    print("dense_run_file already exists...")
+
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    print("project_root", project_root)
+    run_dir = os.path.join(project_root, "run_files")
+    
+    reranker = LLMReranker()  # uses OLLAMA_MODEL or defaults to "llama3.1:8b-instruct-q8_0-16k"
+    reranker.rerank_runfile(
+    initial_run_path=dense_run_file,
+    corpus_path     =project_root+"/data/corpus_jsonl/corpus.jsonl",           # Corpus file path in JSONL format
+    output_run_path =run_dir+"/BM25_LLMExp_DenseRetrieval_LLMRe-rank.run", # Output run file path after reranking
+    queries         = expanded_queries,                               # List of query strings aligned with qids
+    log_path        =project_root+"/logs/llm_reranker_logs.jsonl",           # Optional log file path for prompts/responses
+    top_k           =20,                                             # Number of top documents to rerank per query
+    run_tag         ="llm_reranker",                                 # Tag to use in the output run file
+    )
+    
+    
     
 if __name__ == "__main__":
     import asyncio

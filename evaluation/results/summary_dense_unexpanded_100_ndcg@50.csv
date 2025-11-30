@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+dense_unexpanded_100,0.422878,0.015188

@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+bm25_expanded,0.380680,0.015342
