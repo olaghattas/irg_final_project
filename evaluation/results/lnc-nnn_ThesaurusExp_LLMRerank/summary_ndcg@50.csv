@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+tfidf_lnc_nnn_ThesaurusExp_LLM-Rerank,0.193371,0.014296
