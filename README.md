@@ -24,6 +24,15 @@ pip install -r requirements.txt
 cd src/getting_started
 python download_dataset.py
 ```
+## 4. Ollama model create with 16k context size
+Make sure you have ollama installed in your system. To install check [here](https://ollama.com/download). <br>
+After installing ollama run the following to pull required model:
+```
+cd <project_root>
+ollama pull llama3.1:8b-instruct-q8_0
+ollama create llama3.1:8b-instruct-q8_0-16k -f src/getting_started/Modelfile
+ollama serve # It will run ollama server in background.
+```
 
 <br> <br>
 
