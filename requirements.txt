@@ -12,3 +12,4 @@ aiolimiter
 nltk
 pydantic
 python-dotenv
+sentence-transformers
