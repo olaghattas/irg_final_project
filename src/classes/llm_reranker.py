@@ -118,6 +118,7 @@ class LLMReranker:
         - ```json ... ``` fences
         - extra text before/after
         - stray // line comments and trailing commas
+        - malformed arrays by falling back to regex extraction of docid/score pairs
         """
         # Strip code fences if present
         fence_match = re.search(r"```json(.*?)```", response, re.DOTALL | re.IGNORECASE)
@@ -142,7 +143,26 @@ class LLMReranker:
         try:
             return json.loads(candidate)
         except Exception:
-            return json.loads(_clean(candidate))
+            cleaned = _clean(candidate)
+            try:
+                return json.loads(cleaned)
+            except Exception:
+                # Fallback: extract objects with docid/score via regex
+                objects = []
+                seen = set()
+                for m in re.finditer(r'\{[^}]*?\}', cleaned):
+                    try:
+                        obj = json.loads(_clean(m.group(0)))
+                        docid = str(obj.get("docid"))
+                        if docid in seen:
+                            continue
+                        seen.add(docid)
+                        objects.append({"docid": docid, "score": obj.get("score", 0)})
+                    except Exception:
+                        continue
+                if objects:
+                    return objects
+                raise
 
     def rerank(
         self, query: str, docs: List[Dict[str, Any]], return_raw: bool = False
