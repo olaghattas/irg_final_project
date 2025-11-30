@@ -72,7 +72,7 @@ class LLMReranker:
                     "- 5  = somewhat relevant\n"
                     "- 1  = marginally relevant\n"
                     "- 0  = not relevant\n"
-                    "Return ONLY valid JSON. No explanations.",
+                    "Return ONLY valid JSON. No explanations and comments.",
                 ),
                 (
                     "user",
@@ -117,6 +117,7 @@ class LLMReranker:
         Extract JSON array from the LLM response, handling:
         - ```json ... ``` fences
         - extra text before/after
+        - stray // line comments and trailing commas
         """
         # Strip code fences if present
         fence_match = re.search(r"```json(.*?)```", response, re.DOTALL | re.IGNORECASE)
@@ -131,7 +132,17 @@ class LLMReranker:
         if start != -1 and end != -1 and end > start:
             candidate = candidate[start : end + 1]
 
-        return json.loads(candidate)
+        def _clean(text: str) -> str:
+            # remove // comments
+            text = re.sub(r"//.*", "", text)
+            # remove trailing commas before ] or }
+            text = re.sub(r",\s*([\]}])", r"\1", text)
+            return text
+
+        try:
+            return json.loads(candidate)
+        except Exception:
+            return json.loads(_clean(candidate))
 
     def rerank(
         self, query: str, docs: List[Dict[str, Any]], return_raw: bool = False
