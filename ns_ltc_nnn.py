@@ -138,7 +138,7 @@ def main(args):
     
 
 
-    output_file = f"{method_name}_v_{version}.run"
+    output_file = f"run_files/{method_name}_v_{version}.run"
     print(f"saving to {output_file}")
     with open(output_file, "w", encoding="utf-8") as out_f:
         for qid in all_query_results:
@@ -166,3 +166,17 @@ if __name__ == "__main__":
     main(args)
 
 #python ns_ltc_nnn.py
+# (rag) [ns1254@arl2-falcon irg_final_project]$ python ns_ltc_nnn.py
+# loading data...
+# Processing documents: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 64183/64183 [00:03<00:00, 19511.01it/s]
+# Total documents:  64183
+# Total queries: 597
+# training tf-idf
+# tokenizing documents...: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 64183/64183 [01:42<00:00, 624.31it/s]
+# Total terms: 164654 from 64183 documents.
+# calculating tf-idf...: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 64183/64183 [01:50<00:00, 581.83it/s]
+# evaluating queries...
+# Processing queries: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 597/597 [02:39<00:00,  3.74it/s]
+# all queries processed.
+# saving to run_files/ltc_nnn_v_stage1.run
+# Results written to run_files/ltc_nnn_v_stage1.run
