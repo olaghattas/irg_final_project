@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+tfidf_lnc_nnn,0.228165,0.012864

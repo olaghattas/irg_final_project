@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+tfidf_lnc_nnn_ThesaurusExp,0.148275,0.010319
