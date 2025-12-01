@@ -34,7 +34,8 @@ ollama create llama3.1:8b-instruct-q8_0-16k -f src/getting_started/Modelfile
 ollama serve # It will run ollama server in background.
 ```
 
-### 5. ltc.nnn + Cross-encoder
+## Running Methods
+### 1. ltc.nnn + Cross-encoder
 Run the following jupyter notebook.
 ```
 tmp_ltcnnn_ce.ipynb
@@ -42,27 +43,32 @@ tmp_ltcnnn_ce.ipynb
 
 <br> <br>
 
-# Project Layout
+### 2. ExpQuery + BM25 + DenseRet 
+WARNING: run from the project root
+```
+cd irg_final_project
+python3 src/methods/BM25_LLMExp_DenseRetrieval.py
+```
+## Evalution
 
-irg_final_project/
-├── lib/
-│   ├── Document.py
-│   ├── Embedding.py
-│   ├── Index.py
-│   ├── Query.py
-│   ├── Result.py
-│   └── __init__.py
-│
-├── dataset/
-│   ├── LitSearch_corpus_clean/
-│   │   ├── dataset_info.json
-│   │   ├── data-00000-of-00001.arrow
-│   │   └── state.json
-│   └── LitSearch_query/
-│       ├── dataset_info.json
-│       └── data-00000-of-00001.arrow
-│
-├── run_files/
-│   └── bm25.run
-│
-└── pyserini_index/
+### How to Run
+
+    python evaluate.py --qrels <qrels_path> --runs <run1> <run2> ... --metric <metric_name> --output <output_dir>
+
+#### Required Inputs
+
+-   **--qrels**: Path to qrels file (TREC format)
+-   **--runs**: One or more run files (TREC format)
+
+#### Available Metrics
+
+-   `ndcg@K`
+-   `p@K`
+-   `p@R`
+-   `ap`
+-   `map`
+
+#### Output
+
+The script will generate: - Per-query CSV results - A summary CSV file -
+Printed summary statistics

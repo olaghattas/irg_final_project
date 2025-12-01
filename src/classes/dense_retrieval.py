@@ -28,24 +28,24 @@ class DenseRetrieval(Index):
         
     def generate_embeddings(self, faiss_path = None, emb_path=None):
         
-        # Combine title + abstract (and optionally full paper) per document
+        # Combine title + abstract per document
         corpus_texts = [
             doc["title"] + ". " + doc["abstract"] for doc in self.corpus_dataset
         ]
         
         self.rep = self.model.encode(corpus_texts, batch_size=64, convert_to_tensor=True, show_progress_bar=True)
 
-        ## using FAISS for saving
+        ## Using FAISS for saving
         corpus_np = self.rep.cpu().numpy().astype('float32')
         
         # Dimension of  embedding
         self.dim = corpus_np.shape[1]
         
-        ## available index
+        ## Available Indexes
         # https://github.com/facebookresearch/faiss/wiki/Faiss-indexes
-        ## Exact Search for Inner Product
+        ## Exact search for inner product
         self.index = faiss.IndexFlatIP(self.dim)  
-        ## varant Exact Search for L2
+        ## variant Exact Search for L2
         # self.index = faiss.IndexFlatL2(self.dim)  
         
         faiss.normalize_L2(corpus_np) # normalize for cosine similarity
@@ -74,6 +74,7 @@ class DenseRetrieval(Index):
     def load_index_and_embeddings(self, faiss_path=None, emb_path=None):
         self.get_embeddings(faiss_path, emb_path)
         
+        ## Used to create a subset faiss
         if emb_path and os.path.exists(emb_path):
             data = np.load(emb_path)
             self.rep = data['embeddings']
@@ -98,6 +99,7 @@ class DenseRetrieval(Index):
         vectors_to_add = vectors_to_add.astype('float32')
         ids_to_add = np.array(self.doc_ids)[mask]
 
+        ## not necessary since the faiss index stores the normalized data
         faiss.normalize_L2(vectors_to_add)
 
         subset_index = faiss.IndexIDMap(faiss.IndexFlatIP(self.dim))
@@ -106,19 +108,10 @@ class DenseRetrieval(Index):
         print(f"Subset index created with {subset_index.ntotal} vectors")
         return subset_index
 
-    
-    # def score_filtered(self, query_text, subset_index, top_k=10):
-    #     query_emb = self.model.encode([query_text], convert_to_tensor=True)
-    #     query_np = query_emb.cpu().numpy().astype('float32')
-    #     faiss.normalize_L2(query_np)
-
-    #     distances, indices = subset_index.search(query_np, top_k)
-    #     return [(self.doc_ids[i], float(distances[0][j])) for j, i in enumerate(indices[0])]
 
     def score_filtered(self, query_text, subset_index, top_k=10):
         query_emb = self.model.encode([query_text], convert_to_tensor=True)
         
-        # Convert to numpy if needed
         if hasattr(query_emb, "cpu"):
             query_np = query_emb.cpu().numpy().astype("float32")
         else:
@@ -128,22 +121,12 @@ class DenseRetrieval(Index):
 
         distances, indices = subset_index.search(query_np, top_k)
 
-        # indices from IndexIDMap are already the doc_ids
+        # Indices from IndexIDMap are already the doc_ids
         results = [(int(i), float(distances[0][j])) for j, i in enumerate(indices[0])]
         return results
 
-    # ## temp
-    # def lookup_():
-    #     corpus_dataset.set_format("pandas")
-
-    #     df = corpus_dataset.to_pandas().set_index("corpusid")
-    #     df.loc[7819967]
-    
     def search(self, query_embedding, k=10):
-        """
-        Concrete implementation of abstract method.
-        """
-        # Example using FAISS
+        ## Abstract method of the class
         distances, indices = self.index.search(query_embedding, k)
         return [(self.doc_ids[idx], float(dist)) for idx, dist in zip(indices[0], distances[0])]
     
@@ -159,7 +142,6 @@ class DenseRetrieval(Index):
         distances, indices = self.index.search(query_np, top_k)
         return [(self.doc_ids[idx], float(dist)) for idx, dist in zip(indices[0], distances[0])]
 
-# No BM25 results for query 263
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
