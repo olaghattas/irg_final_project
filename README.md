@@ -34,6 +34,12 @@ ollama create llama3.1:8b-instruct-q8_0-16k -f src/getting_started/Modelfile
 ollama serve # It will run ollama server in background.
 ```
 
+### 5. ltc.nnn + Cross-encoder
+Run the following jupyter notebook.
+```
+tmp_ltcnnn_ce.ipynb
+```
+
 <br> <br>
 
 # Project Layout
