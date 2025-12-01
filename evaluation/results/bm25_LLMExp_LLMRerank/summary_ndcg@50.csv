@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+bm25_LLMExp_LLM-Rerank,0.324202,0.014979
