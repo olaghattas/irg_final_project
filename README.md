@@ -42,14 +42,25 @@ python ns_ltc_nnn.py
 python ns_ce.py --run_file <run_file_path>
 ```
 
-<br> <br>
-
-### 2. ExpQuery + BM25 + DenseRet 
+### 2. LLM Exp + BM25 + DenseRet 
 WARNING: run from the project root
 ```
 cd irg_final_project
 python3 src/methods/BM25_LLMExp_DenseRetrieval.py
 ```
+
+### 3. LLM Exp + BM25 + DenseRet + LLM Rerank
+Run the jupyter notebook [BM25_LLMExp_DenseRetrieval_LLMRe-rank.ipynb](src/methods/BM25_LLMExp_DenseRetrieval_LLMRe-rank.ipynb)
+
+### 4. LLM Exp + BM25 + LLM Rerank
+Run the jupyter notebook [bm25_LLMExp_LLMRerank.ipynb](src/methods/bm25_LLMExp_LLMRerank.ipynb)
+
+### 5.TF-IDF(lnc.nnn)
+Run the jupyter notebook [tfidf_lnc_nnn.ipynb](src/methods/tfidf_lnc_nnn.ipynb)
+
+### 6. Thesausrus Expansion + TF-IDF(lnc.nnn) + LLM Rerank
+Run the jupyter notebook [tfidf_lnc-nnn_ThesaurusExp_LLMRerank.ipynb](src/methods/tfidf_lnc-nnn_ThesaurusExp_LLMRerank.ipynb)
+
 ## Evalution
 
 ### How to Run
