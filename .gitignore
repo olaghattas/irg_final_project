@@ -9,3 +9,5 @@ LitSearch_corpus_s2orc
 
 # do not add API keys
 .env
+dataset/LitSearch_corpus_clean
+dataset/LitSearch_query
