@@ -42,14 +42,14 @@ class LLMReranker:
     def __init__(
         self,
         model_name: Optional[str] = None,
-        temperature: float = 0.0,
+        temperature: float = 0.3,
         num_predict: int = 512,
     ):
         # Resolve model: environment override -> provided -> default quantized tag
         resolved_model = (
             os.environ.get("OLLAMA_MODEL")
             or model_name
-            or "llama3.1:8b-instruct-q8_0-16k"
+            or "gemma3:27b"
         )
 
         print(f"Using Ollama model: {resolved_model}")
