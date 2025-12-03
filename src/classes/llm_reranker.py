@@ -200,7 +200,11 @@ class LLMReranker:
         try:
             scored_list = self._extract_json(raw_response)
         except Exception as e:
-            raise ValueError(f"Failed to parse LLM JSON output: {e}\nRaw:\n{raw_response}")
+            # Gracefully skip this rerank attempt on parse failures
+            print(f"Warning: failed to parse LLM JSON output ({e}); skipping this query.")
+            if return_raw:
+                return [], self._messages_to_text(messages), raw_response
+            return []
 
         # Build a map from id -> text for convenience
         id_to_text = {d["id"]: d["text"] for d in docs}
@@ -286,7 +290,9 @@ class LLMReranker:
                 results, prompt_text, raw_response = self.rerank(
                     query_text, docs, return_raw=True
                 )
-
+                
+                if len(results) == 0:
+                    continue  # Skip if no valid results
                 for rank, (docid, score, _) in enumerate(results, start=1):
                     out_f.write(f"{qid} Q0 {docid} {rank} {score:.6f} {run_tag}\n")
 
