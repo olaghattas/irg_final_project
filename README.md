@@ -36,7 +36,6 @@ ollama serve # It will run ollama server in background.
 
 ## Running Methods
 ### 1. ltc.nnn + Cross-encoder
-Run the following jupyter notebook.
 ```
 cd irg_final_project
 python3 src/methods/run_scratch.py \
