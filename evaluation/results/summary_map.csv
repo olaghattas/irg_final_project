@@ -1,2 +1,2 @@
 run,mean_map,stderr
-ce_topk_50,0.411469,0.017508
+ce_topk_50,0.418126,0.017379
