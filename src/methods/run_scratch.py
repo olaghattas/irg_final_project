@@ -101,6 +101,7 @@ if __name__ == "__main__":
 #     --corpus dataset/LitSearch_corpus_clean \
 #     --query dataset/LitSearch_query \
 #     --topk 50
+# cd evaluation
 # python evaluate.py --qrels litsearch.qrel --runs /home/ns1254/irg_final_project/run_files/ltc_nnn_scratch_topk_50.run --metric map --output results
 # python evaluate.py --qrels litsearch.qrel --runs /home/ns1254/irg_final_project/run_files/ltc_nnn_scratch_topk_50.run --metric ndcg@50 --output results
 

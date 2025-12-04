@@ -1,2 +1,2 @@
 run,mean_map,stderr
-ltc_nnn_scratch_topk_50,0.128586,0.010128
+ce_topk_50,0.411469,0.017508
