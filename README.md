@@ -44,7 +44,11 @@ python3 src/methods/run_scratch.py \
     --query dataset/LitSearch_query \
     --topk 50
     
-python ns_ce.py --run_file <run_file_path>
+python3 src/methods/run_ce.py \
+    --run_file run_files/ltc_nnn_scratch_topk_1000.run \
+    --corpus dataset/LitSearch_corpus_clean \
+    --query dataset/LitSearch_query \
+    --topk 50
 ```
 
 ### 2. LLM Exp + BM25 + DenseRet 
