@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+ltc_nnn_scratch_topk_50,0.201467,0.011116

@@ -11,3 +11,4 @@ LitSearch_corpus_s2orc
 .env
 dataset/LitSearch_corpus_clean
 dataset/LitSearch_query
+out
