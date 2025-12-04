@@ -1,2 +1,2 @@
 run,mean_ndcg@50,stderr
-ce_topk_50,0.490232,0.016261
+sklearn_tfidf_topk_50,0.299646,0.014276
