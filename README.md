@@ -38,7 +38,12 @@ ollama serve # It will run ollama server in background.
 ### 1. ltc.nnn + Cross-encoder
 Run the following jupyter notebook.
 ```
-python ns_ltc_nnn.py
+cd irg_final_project
+python3 src/methods/run_scratch.py \
+    --corpus dataset/LitSearch_corpus_clean \
+    --query dataset/LitSearch_query \
+    --topk 50
+    
 python ns_ce.py --run_file <run_file_path>
 ```
 
