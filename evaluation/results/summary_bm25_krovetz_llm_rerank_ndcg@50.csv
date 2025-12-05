@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+bm25_krovetz_llm_rerank2,0.064498,0.008740

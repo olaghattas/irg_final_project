@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+nnn_nnn_krovetz_llm_rerank2,0.007221,0.002750
