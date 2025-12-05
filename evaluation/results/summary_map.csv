@@ -1,0 +1,2 @@
+run,mean_map,stderr
+sklearn_tfidf_topk_50,0.224629,0.014410
