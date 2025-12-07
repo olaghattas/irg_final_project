@@ -1,0 +1,2 @@
+run,mean_p@50,stderr
+dense_tfifd_50,0.009782,0.000426
