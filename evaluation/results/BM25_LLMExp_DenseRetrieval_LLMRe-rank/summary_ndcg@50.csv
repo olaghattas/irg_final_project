@@ -1,0 +1,2 @@
+run,mean_ndcg@50,stderr
+BM25_LLMExp_DenseRetrieval_LLMRe-rank,0.380100,0.014960
