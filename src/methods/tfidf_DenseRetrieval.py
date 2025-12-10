@@ -10,12 +10,13 @@ from src.classes.query_expansion_LLM import QueryExpansion
 import json
 
 from src.classes.dense_retrieval import DenseRetrieval
+import argparse
 
 import torch
 
 ### Get LLM Expansion
-def get_tfidf(query_config="LitSearch_query"):
-    run_filename=f"tfidf_lnc_nnn.run"
+def get_tfidf(run_filename, query_config="LitSearch_query"):
+ 
     
     # Resolve paths relative to project root
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
@@ -65,9 +66,9 @@ def save_dense_run(results_per_query, run_file):
                 f.write(f"{qid} Q0 {doc_id} {rank} {score:.6f} dense\n")
     print(f"Dense retrieval run file saved to: {run_file}")
     
-async def main():
-    
-    run_path, queries = get_tfidf()
+async def main(runfile: str):
+ 
+    run_path, queries = get_tfidf(runfile)
 
     print(run_path)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -106,7 +107,15 @@ async def main():
     save_dense_run(all_dense_results, dense_run_file)
     
 
-    
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--runfile",
+        type=str,
+        default="tfidf_lnc_nnn.run",
+        help="Name of the TF-IDF .run file inside run_files/"
+    )
+    args = parser.parse_args()
+
+    asyncio.run(main(args.runfile))
+    

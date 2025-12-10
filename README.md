@@ -51,22 +51,40 @@ python3 src/methods/run_ce.py \
 ```
 
 ### 2. LLM Exp + BM25 + DenseRet 
-WARNING: run from the project root
+Dense retrieval dependencies conflict with the LLM reranker, so this method must be run in an environment created using requirements_dense.txt (not requirements.txt).
+
+Run from the project root:
 ```
 cd irg_final_project
 python3 src/methods/BM25_LLMExp_DenseRetrieval.py
 ```
 
-### 3. LLM Exp + BM25 + DenseRet + LLM Rerank
-Run the jupyter notebook [BM25_LLMExp_DenseRetrieval_LLMRe-rank.ipynb](src/methods/BM25_LLMExp_DenseRetrieval_LLMRe-rank.ipynb)
+### 3. TF-IDF(lnc.nnn) + DenseRet
 
-### 4. LLM Exp + BM25 + LLM Rerank
+This also requires the requirements_dense.txt environment.
+
+Run from the project root:
+```
+cd irg_final_project
+python3 src/methods/tfidf_DenseRetrieval.py  --runfile tfidf_runfile.run
+```
+
+tfidf_runfile.run must be generated before running hte script (see Step 6: TF-IDF (lnc.nnn)).
+Ensure the file is located inside the run_files directory.
+
+### 4. LLM Exp + BM25 + DenseRet + LLM Rerank
+This notebook must be run in the environment created with requirements.txt
+1. First generate the dense-retrieval runfile using Step 2.
+2. Update the Jupyter notebook with the correct path to the generated runfile.
+3. Run the jupyter notebook [BM25_LLMExp_DenseRetrieval_LLMRe-rank.ipynb](src/methods/BM25_LLMExp_DenseRetrieval_LLMRe-rank.ipynb)
+
+### 5. LLM Exp + BM25 + LLM Rerank
 Run the jupyter notebook [bm25_LLMExp_LLMRerank.ipynb](src/methods/bm25_LLMExp_LLMRerank.ipynb)
 
-### 5.TF-IDF(lnc.nnn)
+### 6.TF-IDF(lnc.nnn)
 Run the jupyter notebook [tfidf_lnc_nnn.ipynb](src/methods/tfidf_lnc_nnn.ipynb)
 
-### 6. Thesausrus Expansion + TF-IDF(lnc.nnn) + LLM Rerank
+### 7. Thesausrus Expansion + TF-IDF(lnc.nnn) + LLM Rerank
 Run the jupyter notebook [tfidf_lnc-nnn_ThesaurusExp_LLMRerank.ipynb](src/methods/tfidf_lnc-nnn_ThesaurusExp_LLMRerank.ipynb)
 
 ## Evalution
